@@ -38,8 +38,15 @@ FILE_SIZE_LIMIT = int(
 ) * 1024 * 1024  # MB → bytes
 
 # S3 settings
-BUCKET_NAME = config['S3']['BUCKET_NAME']
-JSON_DIR = config['S3']['JSON_DIR']
+def _require_non_empty(section, key):
+    value = config[section].get(key, "").strip()
+    if not value:
+        raise ValueError(f"Missing required config: [{section}] {key}")
+    return value
+    
+BUCKET_NAME = _require_non_empty("S3", "BUCKET_NAME")
+JSON_DIR = _require_non_empty("S3", "JSON_DIR")
+
 UPLOAD_INTERVAL = int(config['S3'].get('UPLOAD_INTERVAL', 300))
 
 AWS_ACCESS_KEY_ID = config['S3']['AWS_ACCESS_KEY_ID']
