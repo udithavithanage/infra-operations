@@ -19,6 +19,10 @@ import time
 import boto3
 import configparser
 import logging
+from dotenv import load_dotenv
+
+# Load environment variables from .env (if present)
+load_dotenv()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -49,8 +53,8 @@ JSON_DIR = _require_non_empty("S3", "JSON_DIR")
 
 UPLOAD_INTERVAL = int(config['S3'].get('UPLOAD_INTERVAL', 300))
 
-AWS_ACCESS_KEY_ID = config['S3']['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = config['S3']['AWS_SECRET_ACCESS_KEY']
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", "").strip()
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", "").strip()
 AWS_REGION = config['S3'].get('AWS_REGION', 'us-west-2')
 
 
