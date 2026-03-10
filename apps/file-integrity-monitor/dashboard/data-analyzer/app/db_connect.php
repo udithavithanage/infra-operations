@@ -18,34 +18,43 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$host   = getenv('DB_HOST') ?: '127.0.0.1';
+$host   = getenv('DB_HOST') ?: 'mysql-server';
 $user   = getenv('DB_USER') ?: '';
 $pass   = getenv('DB_PASS') ?: '';
 $dbname = getenv('DB_NAME') ?: '';
 $port   = getenv('DB_PORT') ?: 3306;
 
-
 if (!$user || !$dbname) {
-    die(' Database environment variables not set');
+    die('Database environment variables not set');
 }
 
 $conn = mysqli_init();
 if (!$conn) {
-    die(' mysqli_init failed');
+    die('mysqli_init failed');
 }
 
 mysqli_options($conn, MYSQLI_OPT_CONNECT_TIMEOUT, 5);
 
+#your generated ca certificates paths here
+mysqli_ssl_set(
+    $conn,
+    '/var/www/html/certs/client-key.pem',
+    '/var/www/html/certs/client-cert.pem',
+    '/var/www/html/certs/ca.pem',
+    null,
+    null
+);
+
 try {
     mysqli_real_connect(
         $conn,
-        $host,     // MUST be 127.0.0.1
+        $host,
         $user,
         $pass,
         $dbname,
         (int)$port,
-        null,      // socket → NULL (very important)
-        0          // flags → NO SSL
+        null,
+        MYSQLI_CLIENT_SSL
     );
 } catch (mysqli_sql_exception $e) {
     error_log('Database connection failed: ' . $e->getMessage());
