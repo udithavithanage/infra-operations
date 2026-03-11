@@ -40,7 +40,9 @@ COPY ssl/server.key /etc/apache2/ssl/server.key
 
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html \
+    && find /var/www/html -type d -exec chmod 750 {} \; \
+    && find /var/www/html -type f -name "*.php" -exec chmod 640 {} \; \
+    && find /var/www/html -type f ! -name "*.php" ! -path "/var/www/html/certs/*" -exec chmod 644 {} \; \
     && chmod 644 /var/www/html/certs/ca.pem /var/www/html/certs/client-cert.pem \
     && chmod 600 /var/www/html/certs/client-key.pem \
     && chmod 644 /etc/apache2/ssl/server.crt \
