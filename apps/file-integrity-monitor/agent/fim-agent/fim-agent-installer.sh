@@ -44,7 +44,14 @@ SYSTEMD_UPLOADER="/etc/systemd/system/data-uploader.service"
 
 INSTALL_REF="${INSTALL_REF:-}"
 
+if [[ -z "${INSTALL_REF}" ]]; then
+  echo "[ERROR] INSTALL_REF must be set to a pinned commit SHA or tag (e.g., export INSTALL_REF=abc1234)."
+  exit 1
+fi
+
 RAW_BASE_URL="https://raw.githubusercontent.com/wso2-open-operations/infra-operations/${INSTALL_REF}/apps/file-integrity-monitor/agent/fim-agent"
+
+
 
 AGENT_URL="${RAW_BASE_URL}/fim-agent.py"
 UPLOADER_URL="${RAW_BASE_URL}/data-uploader.py"
@@ -129,8 +136,8 @@ mkdir -p "$FIM_DIR"
 mkdir -p "$JSON_DIR"
 
 chown -R root:root "$FIM_DIR"
-chmod 0755 "$FIM_DIR"
-chmod 0755 "$JSON_DIR"
+chmod 0750 "$FIM_DIR"
+chmod 0700 "$JSON_DIR"
 
 # --------------------------------------------------
 # 4. Download project files directly from GitHub
