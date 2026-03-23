@@ -30,9 +30,13 @@ import socket
 
 # Paths 
 
-backup_dir = '/home/fimuser/BACKUP'
-input_file = '/var/log/audit/audit.log'
-json_target_dir = "/home/fimuser/FIM/json_dir"
+# Paths 
+_fim_dir        = os.environ.get('FIM_DIR',    '/home/fimuser/FIM')
+_fim_home       = os.path.dirname(_fim_dir)         
+
+backup_dir      = os.environ.get('BACKUP_DIR', os.path.join(_fim_home, 'BACKUP'))
+input_file      = '/var/log/audit/audit.log'           # system path — unchanged
+json_target_dir = os.environ.get('JSON_DIR',   os.path.join(_fim_dir, 'json_dir'))
 
 
 # Config 
