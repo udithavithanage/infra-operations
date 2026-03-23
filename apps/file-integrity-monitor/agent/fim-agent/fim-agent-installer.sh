@@ -94,10 +94,26 @@ download_file() {
 
 reload_audit_rules() {
   echo "[INFO] Reloading audit rules..."
+
   if command_exists augenrules; then
-    augenrules --load || true
+    if ! augenrules --load; then
+      echo "[ERROR] Failed to load audit rules with augenrules."
+      exit 1
+    fi
   fi
-  systemctl restart auditd || true
+
+  if ! systemctl restart auditd; then
+    echo "[ERROR] Failed to restart auditd."
+    exit 1
+  fi
+
+  if ! systemctl is-active --quiet auditd; then
+    echo "[ERROR] auditd is not active after restart."
+    systemctl --no-pager --full status auditd || true
+    exit 1
+  fi
+
+  echo "[INFO] auditd restarted successfully and is active."
 }
 
 # --------------------------------------------------
@@ -231,7 +247,16 @@ disk_full_action = SUSPEND
 disk_error_action = SUSPEND
 EOF
 
-systemctl restart auditd || true
+if ! systemctl restart auditd; then
+  echo "[ERROR] Failed to restart auditd after updating $AUDIT_CONF_FILE"
+  exit 1
+fi
+
+if ! systemctl is-active --quiet auditd; then
+  echo "[ERROR] auditd is not active after updating $AUDIT_CONF_FILE"
+  systemctl --no-pager --full status auditd || true
+  exit 1
+fi
 
 # --------------------------------------------------
 # 7. Setup Python virtual environment
