@@ -35,10 +35,46 @@ fim-agent/
 ```
 
 ## Architectural Diagram
-<img src="https://github.com/user-attachments/assets/99400b79-78e4-40d5-8714-1d532fd3e608" width="600" alt="Architectural Diagram" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/99400b79-78e4-40d5-8714-1d532fd3e608" width="600" alt="Architectural Diagram" />
+</p>
 
 ## Sequence Diagram
-<img src="https://github.com/user-attachments/assets/5bac4e1e-dd3f-4ec0-833f-e8c0f6485f60" width="900" alt="Sequence Diagram" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5bac4e1e-dd3f-4ec0-833f-e8c0f6485f60" width="900" alt="Sequence Diagram" />
+</p>
+
+
+## Prerequisites
+
+Before installing and running the File Integrity Monitor (FIM) Agent, ensure the following prerequisites are completed.
+
+### 1. Supported Architecture
+
+Currently, the FIM Agent supports **x86_64 (64-bit / x64)** architecture only.
+
+> **Note**
+> ARM architecture is **not supported at the moment**.  
+> Support for **ARM-based environments** is planned for a future release.
+
+You can verify the server architecture using:
+
+```bash
+uname -m
+```
+
+### 2. AWS S3 Prerequisites
+
+Before deployment, an **Amazon S3 bucket must be created in advance** to store the generated JSON event files.
+
+The following AWS details are required for the agent configuration:
+
+```env id="pfcj7s"
+BUCKET_NAME=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+```
 
 
 
