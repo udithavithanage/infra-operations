@@ -76,5 +76,126 @@ AWS_SECRET_ACCESS_KEY=
 AWS_REGION=
 ```
 
+## Deployment
+
+The FIM Agent can be deployed using the provided installer script, which performs the required package installation and system setup in a single execution.
+
+### 1. Download the installer script
+
+Since the installer script is publicly available in this repository, download it using wget:
+```
+wget -O fim-agent-installation.sh https://raw.githubusercontent.com/wso2-open-operations/infra-operations/dev/apps/file-integrity-monitor/agent/fim-agent/fim-agent-installer.sh
+```
+### 2. Run the installer as root
+
+Run the installer script with root privileges:
+```
+sudo bash fim-agent-installation.sh
+```
+Note
+The installation may take around 1 to 2 minutes to complete depending on the machine and network speed.
+
+### 3. Verify successful installation
+
+After the script completes successfully, the terminal will show output similar to the following:
+```
+============================================================
+FIM Agent installation completed successfully.
+============================================================
+
+Files installed to:
+  ${FIM_DIR}
+
+Downloaded files:
+  ${AGENT_DST}
+  ${UPLOADER_DST}
+  ${CONF_DST}
+  ${ENV_SAMPLE_DST}
+  ${ENV_DST}
+
+IMPORTANT:
+Before starting the services, update your credentials in:
+  1. ${CONF_DST}
+  2. ${ENV_DST}
+
+Suggested commands:
+  nano ${CONF_DST}
+  nano ${ENV_DST}
+
+After updating credentials, run:
+  systemctl enable fim.service
+  systemctl enable data-uploader.service
+  systemctl start fim.service
+  systemctl start data-uploader.service
+
+Check status:
+  systemctl status fim.service
+  systemctl status data-uploader.service
+
+View logs:
+  journalctl -u fim.service -f
+  journalctl -u data-uploader.service -f
+
+Installer log:
+  ${LOG_FILE}
+```
+### 4. Update configuration files
+
+After installation, update the following configuration files with the required S3 bucket and AWS credential details:
+```
+nano /home/fimuser/FIM/fim-agent.conf
+nano /home/fimuser/FIM/.env
+```
+Make sure the following values are properly configured:
+
+In fim-agent.conf
+```
+BUCKET_NAME=
+AWS_REGION=
+JSON_DIR=
+UPLOAD_INTERVAL=
+```
+In .env
+```
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+BUCKET_NAME=
+```
+### 5. Enable and start the services
+
+After updating the configuration, enable and start both services:
+```
+systemctl enable fim.service
+systemctl enable data-uploader.service
+systemctl start fim.service
+systemctl start data-uploader.service
+```
+### 6. Check service status
+
+Use the following commands to verify that both services are running correctly:
+```
+systemctl status fim.service
+systemctl status data-uploader.service
+```
+### 7. View logs
+
+To monitor service logs in real time:
+```
+journalctl -u fim.service -f
+journalctl -u data-uploader.service -f
+```
+Notes
+The installer does not start the services automatically.
+Configuration must be completed before starting the services.
+Ensure the S3 bucket details and AWS credentials are correctly provided in both configuration sources if required by your deployment model.
+Existing audit configuration files may be backed up before replacement during installation.
+
+A couple of improvements I made while inserting it:
+- fixed the grammar in the backup paragraph
+- removed the broken `:contentReference...` text
+- added a missing `## Repository contents` heading for cleaner structure
+
+
 
 
