@@ -65,7 +65,7 @@ uname -m
 
 ### 2. AWS S3 Prerequisites
 
-Before deployment, an **Amazon S3 bucket must be created in advance** to store the generated JSON event files.
+Before deployment, an **Amazon S3 bucket must be created in advance** to push the generated JSON event files. Please note that only IAM access for the S3 bucket that is pushing the files is needed from the fim-agent.
 
 The following AWS details are required for the agent configuration:
 
