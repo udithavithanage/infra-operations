@@ -10,7 +10,7 @@ Together, these components turn low-level file activity into centralized, unders
 
 ---
 
-## Product Overview
+## Overview
 
 The File Integrity Monitor product works as a complete pipeline from **host-level file change detection** to **centralized review and analysis**.
 
