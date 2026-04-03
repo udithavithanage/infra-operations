@@ -1,12 +1,47 @@
 # File Integrity Monitor (FIM)
 
->**Note**: This is an **open-source project** developed by the WSO2 Infra team to improve operational efficiency, support auditing and evidence generation, and assist with server troubleshooting. Please note that this is an **ongoing development project**, and improved versions will be released in the future. This implementation represents the outcome of our current research efforts.
+> **Note**: This is an **open-source project** developed by the WSO2 Infra team to improve operational efficiency, support auditing and evidence generation, and assist with server troubleshooting. This is an **ongoing development project**, and improved versions will be released in future iterations. This implementation represents the current outcome of our research efforts.
 
-FIM provides a complete workflow for detecting, collecting, and reviewing file changes across Linux environments. The product combines two main components: **FIM Agent** and **FIM Dashboard**.
+## Introduction
 
-The **FIM Agent** runs on monitored hosts and uses Linux `auditd` logs to detect file changes, reconstruct meaningful events, and generate structured JSON records with relevant metadata and file difference details where applicable. The **FIM Dashboard** collects those results from Amazon S3, stores them in a central MySQL database, and presents them through a web interface for analysis, filtering, and review.
+As part of a research initiative, we developed **File Integrity Monitor (FIM)** for Linux distributions using **Audit Daemon (`auditd`) logs**. The solution is designed to detect, collect, and review changes made to important system files and configurations. While the current implementation focuses on Linux environments, the overall approach can be extended to other operating systems that support AuditD-style auditing.
 
-Together, these components turn low-level file activity into centralized, understandable, and actionable file integrity monitoring data.
+The main objective of FIM is to identify unauthorized or unexpected file system changes and convert low-level audit activity into meaningful, reviewable integrity records. This helps strengthen security operations by highlighting potential breaches, malware activity, insider threats, misconfigurations, and unauthorized administrative actions.
+
+A key strength of this solution is its ability to accurately trace the originating user even when file system modifications are performed through elevated or switched root privileges. This gives teams clearer accountability and visibility during investigations, which can be difficult to achieve with some existing commercial products. At the same time, the solution provides a practical and cost-effective approach for organizations that need strong monitoring, auditing, and compliance support.
+
+FIM provides a complete end-to-end workflow through two main components:
+
+- **FIM Agent** – runs on monitored hosts, reads `auditd` logs, reconstructs meaningful file-change events, and produces structured JSON results with metadata and diff details where applicable
+- **FIM Dashboard** – collects those JSON results from Amazon S3, stores them in a central MySQL database, and presents them through a web interface for review, filtering, and analysis
+
+Together, these components turn fragmented low-level file activity into centralized, understandable, and actionable file integrity monitoring data.
+
+## Key Features
+
+- **Unauthorized File Modification Detection**  
+  Identifies changes to critical system files such as `/etc/*` to help maintain configuration and log integrity.
+
+- **Privileged Activity Monitoring**  
+  Tracks privileged actions to improve visibility into administrative activity and strengthen OS hardening.
+
+- **OS Patch Monitoring**  
+  Detects unexpected or unauthorized system update activity that may indicate misuse or compromise.
+
+- **Permission Change Detection**  
+  Identifies file and directory permission changes to help resolve security misconfigurations and access-related issues.
+
+- **Command Execution Monitoring**  
+  Captures executed commands associated with monitored directories and file-change events.
+
+- **File Creation and Deletion Detection**  
+  Detects unauthorized file creation and deletion events in monitored locations.
+
+- **Centralized Audit Data Storage**  
+  Supports agent-based deployment with centralized collection and dashboard-based review.
+
+- **Resource Usage Control**  
+  Enforces resource limits for the FIM service to help protect overall OS health and stability.
 
 ---
 
