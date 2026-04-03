@@ -1,6 +1,9 @@
 # File Integrity Monitor (FIM)
+---
 
 > **Note**: This is an **open-source project** developed by the WSO2 Infra team to improve operational efficiency, support auditing and evidence generation, and assist with server troubleshooting. This is an **ongoing development project**, and improved versions will be released in future iterations. This implementation represents the current outcome of our research efforts.
+
+---
 
 ## Introduction
 
