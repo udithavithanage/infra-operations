@@ -474,16 +474,15 @@ https://<host-ip>/login.php
 
 ## Recommended Deployment Sequence
 
-1. Provision the MySQL database
-2. Create the required database and table for FIM records
-3. Add database TLS certificate files into both `certs/` folders
-4. Add HTTPS certificate files into `data-analyzer/ssl/`
-5. Build the Docker images
-6. Start `data-collector`
-7. Verify that data is being inserted into the database
-8. Start `data-analyzer`
-9. Verify login and dashboard access
-10. Confirm the full pipeline works from S3 to the dashboard UI
+1. Create the required mysql database and table for FIM records
+2. Add database TLS certificate files into both `certs/` folders
+3. Add HTTPS certificate files into `data-analyzer/ssl/`
+4. Build the Docker images
+5. Start `data-collector`
+6. Verify that data is being inserted into the database
+7. Start `data-analyzer`
+8. Verify login and dashboard access
+9. Confirm the full pipeline works from S3 to the dashboard UI
 
 ---
 
