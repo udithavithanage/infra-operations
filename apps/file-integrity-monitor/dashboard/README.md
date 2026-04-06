@@ -268,8 +268,8 @@ CREATE TABLE IF NOT EXISTS centralised_fim_db (
     INDEX idx_timestamp (timestamp)
 ) ENGINE=InnoDB;
 
-CREATE USER IF NOT EXISTS '${FIM_DB_USER}'@'%' IDENTIFIED BY '${FIM_DB_PASSWORD}';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${FIM_DB_USER}'@'%';
+CREATE USER IF NOT EXISTS '${FIM_DB_USER}'@'127.0.0.1' IDENTIFIED BY '${FIM_DB_PASSWORD}';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ${DB_NAME}.* TO '${FIM_DB_USER}'@'127.0.0.1';
 FLUSH PRIVILEGES;
 EOF
 
@@ -283,8 +283,10 @@ echo "[INFO] Database, table, and user permissions created successfully."
 2. Update the following values:
    - `DB_HOST`
    - `DB_PORT`
-   - `DB_USER`
-   - `DB_PASSWORD`
+   - `ROOT_USER`
+   - `ROOT_PASSWORD`
+   - `FIM_DB_USER`
+   - `FIM_DB_PASSWORD`
    - `DB_NAME` if needed
 3. Give execute permission:
    ```bash
