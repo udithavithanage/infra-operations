@@ -192,7 +192,7 @@ Before running the dashboard components, make sure the following are available:
 - Docker is installed on the host
 - Access to an Amazon S3 bucket
 - A MySQL-compatible database (Please see the `Database Setup Script` section)
-- Database user credentials
+- Database root user & credentials
 - TLS certificates for database connectivity, if required
 - HTTPS certificate and key for the dashboard web server
 - Required environment variable values
@@ -505,4 +505,23 @@ https://<host-ip>/login.php
 - Records are visible in the dashboard
 - CSV export works
 - Detailed diff view works
+
+---
+
+## FIM Dashboard Summary
+
+The `dashboard/` folder provides the centralized dashboard pipeline for the File Integrity Monitor solution.
+
+It contains:
+
+- **data-collector** to move FIM result data from S3 into MySQL
+- **data-analyzer** to read MySQL data and display it in a dashboard
+
+### In summary
+
+- Collect file integrity result files centrally
+- Store them in a structured database
+- Provide a user-friendly dashboard for monitoring and analysis
+
+This makes FIM results easier to review, manage, and export from a single place.
 
