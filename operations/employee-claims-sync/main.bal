@@ -14,18 +14,18 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import employee_data_sync.employee;
-import employee_data_sync.scim;
+import employee_claims_sync.employee;
+import employee_claims_sync.scim;
 
 import ballerina/lang.runtime;
 import ballerina/log;
 
 @display {
-    label: "Employee Data Sync to Asgardeo",
-    id: "infra/employee-data-sync"
+    label: "Employee Claims Sync to Asgardeo",
+    id: "infra/employee-claims-sync"
 }
 public function main() returns error? {
-    log:printInfo("Employee data sync to Asgardeo started...");
+    log:printInfo("Employee claims sync to Asgardeo started...");
     employee:Employee[] employees = check employee:getEmployees(filters =
             {employeeStatus: [employee:EmployeeStatusActive, employee:EmployeeStatusMarkedLeaver]});
     log:printInfo("Successfully fetched employee data. Total employees: " + employees.length().toString());
@@ -68,8 +68,8 @@ public function main() returns error? {
     }
 
     if updateFailureCount == 0 {
-        log:printInfo("Employees data sync completed successfully.");
+        log:printInfo("Employee claims sync completed successfully.");
     } else {
-        log:printInfo(string `Employee data sync completed with ${updateFailureCount} update failure(s).`);
+        log:printInfo(string `Employee claims sync completed with ${updateFailureCount} update failure(s).`);
     }
 }
