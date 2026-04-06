@@ -30,7 +30,7 @@ At a high level, it does the following:
 7. A separate uploader process periodically scans the JSON directory and uploads eligible JSON files to S3.
 8. Uploaded JSON files are removed locally after a successful upload.
 
-This behavior is implemented in the current repository code. The monitor tails `/var/log/audit/audit.log`, parses `type=CWD`, `type=PATH`, and `type=PROCTITLE` records after matching successful syscall triggers, then generates JSON into the configured JSON directory. The uploader reads bucket, JSON path, upload interval, and file size limit from config and uploads matching `.json` files to S3 using `boto3`. :contentReference[oaicite:3]{index=3}Repository contents
+This behavior is implemented in the current repository code. The monitor tails `/var/log/audit/audit.log`, parses `type=CWD`, `type=PATH`, and `type=PROCTITLE` records after matching successful syscall triggers, then generates JSON into the configured JSON directory. The uploader reads bucket, JSON path, upload interval, and file size limit from config and uploads matching `.json` files to S3 using `boto3`.
 
 ```text
 fim-agent/
