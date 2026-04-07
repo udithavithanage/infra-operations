@@ -40,7 +40,7 @@ public function main() returns error? {
         }
         scim:User[] userResult = check scim:searchUser(employee.workEmail.toLowerAscii());
         if userResult.length() == 0 {
-            log:printWarn(string `User with email ${employee.workEmail} does not exist in Asgardeo. Skipping...`);
+            log:printWarn(string `employee with ID: ${employee.employeeId} does not exist in Asgardeo. Skipping...`);
             count += 1;
             continue;
         }
@@ -58,10 +58,10 @@ public function main() returns error? {
             }
             scim:User|error updatedUser = scim:updateUser(updatePayload, user.id);
             if updatedUser is error {
-                log:printError(string `Failed to update user: ${user.userName} in Asgardeo.`, updatedUser);
+                log:printError(string `Failed to update employee ${user.id} in Asgardeo.`, updatedUser);
                 updateFailureCount += 1;
             } else {
-                log:printDebug(string `Successfully updated user: ${user.userName} in Asgardeo.`);
+                log:printDebug(string `Successfully updated employee ${user.id} in Asgardeo.`);
             }
         }
         count += 1;

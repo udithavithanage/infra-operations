@@ -50,6 +50,8 @@ public type EmployeeFilter record {|
 
 # Employee type.
 public type Employee record {|
+    # ID of the employee
+    string employeeId;
     # Work email of the employee
     string workEmail;
     # Thumbnail image of the employee
@@ -61,6 +63,8 @@ public type Employee record {|
 
 # Employee response type.
 public type EmployeeResponse record {|
+    # ID of the employee
+    string? employeeId;
     # Work email of the employee
     string? workEmail;
     # Thumbnail image of the employee
