@@ -25,6 +25,7 @@ public isolated function getEmployees(EmployeeFilter filters = {}) returns Emplo
     string document = string `
         query getEmployees($filter: EmployeeFilter!, $limit: Int, $offset: Int) {
             employees(filter: $filter, limit: $limit, offset: $offset) {
+                employeeId
                 workEmail
                 employeeThumbnail
                 jobRole
@@ -50,6 +51,7 @@ public isolated function getEmployees(EmployeeFilter filters = {}) returns Emplo
         EmployeeResponse[] batch = response.data.employees;
         Employee[] batchEmployees = from EmployeeResponse empResp in batch
             select {
+                employeeId: empResp.employeeId ?: "",
                 workEmail: empResp.workEmail ?: "",
                 employeeThumbnail: empResp.employeeThumbnail,
                 jobRole: empResp?.jobRole
