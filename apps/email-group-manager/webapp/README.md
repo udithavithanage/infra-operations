@@ -93,20 +93,7 @@ Building and deployment
 - Run `npm run build` to produce a `dist/` folder.
 - Serve the built files from any static host or integrate into the backend server.
 
-Contributing
-
-- Follow the existing code structure and patterns.
-- Add unit or integration tests where relevant (this project currently focuses on UI and integration with backend APIs).
-
 Troubleshooting
 
 - If the app fails to load config, ensure `public/config.js` exists and exports the expected shape.
 - Verify backend API endpoints and CORS settings if requests fail.
-
-Contact
-
-- For project-specific questions, refer to the repository owners or open an issue in the upstream repo.
-
-License
-
-- Check the repository root for license information; add one if needed.
