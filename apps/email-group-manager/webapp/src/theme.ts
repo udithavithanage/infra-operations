@@ -33,7 +33,7 @@ const extractColors = () => {
 
   return {
     neutral: Object.entries(variables.colors.neutral).reduce(
-      (acc, [key, token]: [string, any]) => {
+      (acc, [key, token]: [string, { value: string }]) => {
         acc[key] = cleanHexColor(token.value);
         return acc;
       },
@@ -41,7 +41,7 @@ const extractColors = () => {
     ),
 
     primary: Object.entries(variables.colors.primary).reduce(
-      (acc, [key, token]: [string, any]) => {
+      (acc, [key, token]: [string, { value: string }]) => {
         acc[key] = cleanHexColor(token.value);
         return acc;
       },
@@ -49,7 +49,7 @@ const extractColors = () => {
     ),
 
     secondary: Object.entries(variables.colors.secondary).reduce(
-      (acc, [key, token]: [string, any]) => {
+      (acc, [key, token]: [string, { value: string }]) => {
         acc[key] = cleanHexColor(token.value);
         return acc;
       },
@@ -97,7 +97,11 @@ export const tokens = (mode: PaletteMode) => {
               p4: { active: colors.neutral["1300"], hover: "#ffffff" },
             },
             brand: {
-              p1: { active: colors.primary["1100"], hover: "#FF6A0096" },
+              p1: {
+                active: colors.primary["1100"],
+                hover: "#FF6A0096",
+                disabled: "#ff730096",
+              },
             },
           },
 

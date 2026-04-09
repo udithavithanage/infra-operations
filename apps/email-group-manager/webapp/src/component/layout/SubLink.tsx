@@ -93,6 +93,7 @@ const SubLink = (props: SubLinkProps) => {
         <Box
           component={Link}
           to={fullPath}
+          aria-label={primary}
           sx={{
             display: "flex",
             alignItems: "center",

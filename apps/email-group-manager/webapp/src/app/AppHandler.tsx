@@ -28,9 +28,9 @@ import { RootState, useAppSelector } from "@slices/store";
 import { getActiveRoutesV2, routes } from "../route";
 
 const AppHandler = () => {
-  const [appState, setAppState] = useState<"loading" | "success" | "failed" | "maintenance">(
-    "loading",
-  );
+  const [appState, setAppState] = useState<
+    "loading" | "success" | "failed" | "maintenance"
+  >("loading");
 
   const auth = useAppSelector((state: RootState) => state.auth);
 
@@ -48,21 +48,29 @@ const AppHandler = () => {
   );
 
   useEffect(() => {
+    if (auth.mode === "maintenance") {
+      setAppState("maintenance");
+      return;
+    }
+
     if (auth.status === "loading") {
       setAppState("loading");
     } else if (auth.status === "success") {
       setAppState("success");
     } else if (auth.status === "failed") {
       setAppState("failed");
-    } else if (auth.mode === "maintenance") {
-      setAppState("maintenance");
     }
   }, [auth.status, auth.mode]);
 
   const renderApp = () => {
     switch (appState) {
       case "loading":
-        return <PreLoader isLoading={true} message={"We are getting things ready ..."} />;
+        return (
+          <PreLoader
+            isLoading={true}
+            message={"We are getting things ready ..."}
+          />
+        );
 
       case "failed":
         return <ErrorHandler message={auth.statusMessage} />;

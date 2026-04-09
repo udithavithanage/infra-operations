@@ -13,6 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 import { Box, Button, useTheme } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
@@ -27,8 +28,8 @@ interface TabsPageProps {
 interface TabProps {
   tabTitle: string;
   tabPath: string;
-  icon: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
-  page: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  icon: React.ReactElement;
+  page: React.ReactElement;
 }
 
 export default function TabsPage({ tabsPage }: TabsPageProps) {
@@ -37,7 +38,10 @@ export default function TabsPage({ tabsPage }: TabsPageProps) {
 
   const tabs = useMemo(() => tabsPage.map((tab) => tab.tabPath), [tabsPage]);
 
+  const hasTabs = tabs.length > 0;
+
   useEffect(() => {
+    if (!hasTabs) return;
     const currentTab = searchParams.get("tab");
     const tabIndex = currentTab ? tabs.indexOf(currentTab) : -1;
 
@@ -47,7 +51,9 @@ export default function TabsPage({ tabsPage }: TabsPageProps) {
       setValue(0);
       setSearchParams({ tab: tabs[0] }, { replace: true });
     }
-  }, [searchParams, tabs, setSearchParams]);
+  }, [searchParams, tabs, setSearchParams, hasTabs]);
+
+  if (!hasTabs) return null;
 
   const handleTabClick = (index: number) => {
     setValue(index);
@@ -179,7 +185,7 @@ interface TabPanelProps {
 }
 
 export function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, index, ...other } = props;
 
   return (
     <Box

@@ -39,11 +39,12 @@ function PanelHeader(props: {
 
       <ButtonGroup>
         {props.refresh && (
-          <Tooltip title={"Refresh Page"}>
+          <Tooltip title="Refresh Page">
             <IconButton
               size="small"
+              aria-label="Refresh page"
               onClick={() => {
-                props.refresh && props.refresh();
+                props.refresh;
               }}
             >
               <Cached />

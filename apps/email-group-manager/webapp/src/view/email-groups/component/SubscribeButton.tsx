@@ -64,7 +64,6 @@ function SubscribeButton({ groupEmail, isSubscribed }: SubscribeButtonProps) {
         setLoading(false);
       }
     } else {
-      setSubscribed(false);
       setLoading(false);
     }
   };

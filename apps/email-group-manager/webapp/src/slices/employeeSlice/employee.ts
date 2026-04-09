@@ -48,31 +48,29 @@ export const fetchEmployees = createAsyncThunk(
   "employee/fetchEmployees",
   async (_, { getState, dispatch, rejectWithValue }) => {
     const { userInfo } = (getState() as { user: UserState }).user;
-    return new Promise<Employee[]>((resolve, reject) => {
-      APIService.getInstance()
-        .get(AppConfig.serviceUrls.employees)
-        .then((response) => {
-          const filteredEmployees = response.data.filter(
-            (emp: Employee) => emp.workEmail !== userInfo?.workEmail,
-          );
-          resolve(filteredEmployees);
-        })
-        .catch((error) => {
-          if (axios.isCancel(error)) {
-            return rejectWithValue("Request canceled");
-          }
-          dispatch(
-            enqueueSnackbarMessage({
-              message:
-                error.response?.status === HttpStatusCode.InternalServerError
-                  ? SnackMessage.error.fetchEmployees
-                  : "An unknown error occurred.",
-              type: "error",
-            }),
-          );
-          reject(error.response.data.message);
-        });
-    });
+    try {
+      const response = await APIService.getInstance().get(
+        AppConfig.serviceUrls.employees,
+      );
+      const filteredEmployees = response.data.filter(
+        (emp: Employee) => emp.workEmail !== userInfo?.workEmail,
+      );
+      return filteredEmployees;
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        return rejectWithValue("Request canceled");
+      }
+      dispatch(
+        enqueueSnackbarMessage({
+          message:
+            error.response?.status === HttpStatusCode.InternalServerError
+              ? SnackMessage.error.fetchEmployees
+              : "An unknown error occurred.",
+          type: "error",
+        }),
+      );
+      return rejectWithValue(error.response.data.message);
+    }
   },
 );
 

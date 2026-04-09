@@ -127,15 +127,16 @@ const ConfirmationModalContextProvider: React.FC<
 
   const handleOk = (value?: string) => {
     content && content.action(value);
+    reset();
     onHide();
   };
 
   const handleCancel = () => {
-    Reset();
+    reset();
     onHide();
   };
 
-  const Reset = () => {
+  const reset = () => {
     setContent({
       title: "",
       message: "",

@@ -17,7 +17,7 @@
 import { State } from "../../types/types";
 import { AppConfig } from "@config/config";
 import { APIService } from "@utils/apiService";
-import type { UserState, UserInfoInterface } from "@slices/authSlice/auth";
+import type { UserState } from "@slices/authSlice/auth";
 import {
   createSlice,
   createAsyncThunk,
@@ -32,22 +32,25 @@ const initialState: UserState = {
   userInfo: null,
 };
 
-export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
-  return new Promise<{
-    UserInfo: UserInfoInterface;
-  }>((resolve, reject) => {
-    APIService.getInstance()
-      .get(AppConfig.serviceUrls.userInfo)
-      .then((resp) => {
-        resolve({
-          UserInfo: resp.data,
-        });
-      })
-      .catch((error: AxiosError) => {
-        reject(error);
+export const getUserInfo = createAsyncThunk(
+  "user/getUserInfo",
+  async (_, { rejectWithValue }) => {
+    try {
+      const resp = await APIService.getInstance().get(
+        AppConfig.serviceUrls.userInfo,
+      );
+      return {
+        UserInfo: resp.data,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue({
+        status: axiosError.response?.status,
+        message: axiosError.message,
       });
-  });
-});
+    }
+  },
+);
 
 export const UserSlice = createSlice({
   name: "getUserInfo",
@@ -59,7 +62,7 @@ export const UserSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserInfo.pending, (state, action) => {
+      .addCase(getUserInfo.pending, (state) => {
         state.state = State.loading;
         state.stateMessage = "Checking User Info...";
       })

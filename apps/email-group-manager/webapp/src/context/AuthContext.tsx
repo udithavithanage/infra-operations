@@ -131,14 +131,17 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
         } else {
           const silentSignInSuccess = await trySignInSilently();
 
-          if (mounted)
-            setAppState(
-              silentSignInSuccess
-                ? AppState.Authenticating
-                : AppState.Unauthenticated,
-            );
+          if (mounted) {
+            if (silentSignInSuccess) {
+              setAppState(AppState.Authenticating);
+              await setupAuthenticatedUser();
+              setAppState(AppState.Authenticated);
+            } else {
+              setAppState(AppState.Unauthenticated);
+            }
+          }
         }
-      } catch (err) {
+      } catch {
         if (mounted) {
           dispatch(setAuthError());
         }
@@ -153,13 +156,11 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
   }, [state.isAuthenticated, state.isLoading]);
 
   const refreshToken = async (): Promise<{ accessToken: string }> => {
-    if (state.isAuthenticated) {
-      const accessToken = await getIDToken();
-      return { accessToken };
-    }
-
     try {
-      await refreshAccessToken();
+      if (!state.isAuthenticated) {
+        await refreshAccessToken();
+      }
+
       const accessToken = await getAccessToken();
       return { accessToken };
     } catch (error) {

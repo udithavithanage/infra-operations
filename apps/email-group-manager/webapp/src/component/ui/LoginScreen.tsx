@@ -74,12 +74,7 @@ const LoginScreen = () => {
                 p={1}
               >
                 <Grid size={{ xs: 12 }}>
-                  <img
-                    alt="logo"
-                    width="130"
-                    height="auto"
-                    src={logo.default}
-                  ></img>
+                  <img alt="logo" width="130" height="auto" src={logo}></img>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <Typography
@@ -107,8 +102,6 @@ const LoginScreen = () => {
                     color="primary"
                     sx={{ fontWeight: "bold" }}
                     onClick={() => {
-                      appSignOut();
-
                       appSignIn();
                     }}
                   >
