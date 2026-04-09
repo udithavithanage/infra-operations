@@ -7,7 +7,7 @@ Ballerina service for managing Google group subscriptions for employees.
 The service exposes APIs to:
 
 - read the current user's profile information from the HR entity service
-- list default, public, private, user-specific, and domain-wide Google groups
+- list default, public, private, user-specific, and domain-wide Google Groups
 - subscribe and unsubscribe a user from a Google group through Google Admin SDK
 
 The service listens on port 9090.
@@ -85,7 +85,7 @@ Returns the logged-in user's profile information.
 
 ### GET /default-google-groups
 
-Returns the default Google groups assigned to all employees.
+Returns the default Google Groups assigned to all employees.
 
 #### Response 200
 
@@ -101,7 +101,7 @@ Returns the default Google groups assigned to all employees.
 
 ### GET /public-google-groups
 
-Returns Google groups that the user can subscribe to and unsubscribe from.
+Returns Google Groups that the user can subscribe to and unsubscribe from.
 
 #### Response 200
 
@@ -117,7 +117,7 @@ Returns Google groups that the user can subscribe to and unsubscribe from.
 
 ### GET /private-google-groups
 
-Returns Google groups that the user is subscribed to but cannot unsubscribe from.
+Returns Google Groups that the user is subscribed to but cannot unsubscribe from.
 
 #### Response 200
 
@@ -133,7 +133,7 @@ Returns Google groups that the user is subscribed to but cannot unsubscribe from
 
 ### GET /user-google-groups
 
-Returns all Google groups the user is currently subscribed to.
+Returns all Google Groups the user is currently subscribed to.
 
 #### Response 200
 
@@ -155,7 +155,7 @@ Returns all Google groups the user is currently subscribed to.
 
 ### GET /all-google-groups
 
-Returns all Google groups in the configured email domain.
+Returns all Google Groups in the configured email domain.
 
 #### Response 200
 
@@ -188,8 +188,7 @@ Subscribes the authenticated user to a Google group.
 
 ```json
 {
-  "groupName": "department-x@domain.com",
-  "userEmail": "user1@domain.com"
+  "groupName": "department-x"
 }
 ```
 
@@ -210,8 +209,7 @@ Unsubscribes the authenticated user from a Google group.
 
 ```json
 {
-  "groupName": "department-x@domain.com",
-  "userEmail": "user1@domain.com"
+  "groupName": "department-x"
 }
 ```
 

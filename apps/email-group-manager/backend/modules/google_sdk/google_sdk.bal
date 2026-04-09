@@ -6,6 +6,7 @@
 // You may not alter or remove any copyright or other notice from copies of this content.
 
 import ballerina/http;
+import ballerina/url;
 
 # Gets the groups a user is a member of using the Admin SDK API.
 #
@@ -91,7 +92,8 @@ public isolated function getUserUnsubscribableGroups() returns string[]|error {
 # + groupEmail - The email of the group to subscribe the user to
 # + return - true if the subscription was successful, or an error if the API call fails
 public isolated function subscribeUserToGroup(string userEmail, string groupEmail) returns boolean|error {
-    string path = string `/admin/directory/v1/groups/${groupEmail}/members`;
+    string encodedGroupEmail = check url:encode(groupEmail, "UTF-8");
+    string path = string `/admin/directory/v1/groups/${encodedGroupEmail}/members`;
     Member member = {email: userEmail, role: "MEMBER"};
     http:Response res = check adminClient->post(path, member);
 
@@ -109,7 +111,9 @@ public isolated function subscribeUserToGroup(string userEmail, string groupEmai
 # + groupEmail - The email of the group to unsubscribe the user from
 # + return - true if the unsubscription was successful, or an error if the API call fails
 public isolated function unsubscribeUserFromGroup(string userEmail, string groupEmail) returns boolean|error {
-    string path = string `/admin/directory/v1/groups/${groupEmail}/members/${userEmail}`;
+    string encodedGroupEmail = check url:encode(groupEmail, "UTF-8");
+    string encodedUserEmail = check url:encode(userEmail, "UTF-8");
+    string path = string `/admin/directory/v1/groups/${encodedGroupEmail}/members/${encodedUserEmail}`;
     http:Response res = check adminClient->delete(path);
 
     if res.statusCode != 204 {
@@ -125,7 +129,8 @@ public isolated function unsubscribeUserFromGroup(string userEmail, string group
 # + groupEmail - The email of the group to check
 # + return - true if the group is subscribable, false if not, or an error
 public isolated function checkGroupIsSubscribable(string groupEmail) returns boolean|error {
-    string path = string `/admin/directory/v1/groups/${groupEmail}/members/${publicGroupUser}`;
+    string encodedGroupEmail = check url:encode(groupEmail, "UTF-8");
+    string path = string `/admin/directory/v1/groups/${encodedGroupEmail}/members/${publicGroupUser}`;
     http:Response res = check adminClient->get(path);
 
     if res.statusCode == 200 {
