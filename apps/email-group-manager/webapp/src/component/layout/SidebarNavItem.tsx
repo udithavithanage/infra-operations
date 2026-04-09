@@ -88,6 +88,7 @@ function SidebarNavItem({
         ) : (
           <Box
             component="button"
+            type="button"
             sx={{
               width: "100%",
               cursor: "pointer",

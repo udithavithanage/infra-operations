@@ -13,6 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 import { Grid, Stack, Typography } from "@mui/material";
 
 import React from "react";
@@ -46,8 +47,8 @@ const CandidateMainInfoCard = ({ title, items }: CandidateInfoCardProps) => {
         {title}
       </Typography>
       <Stack gap={1}>
-        {items.map((item) => (
-          <Stack key={item.title} flexDirection={"row"} gap={1}>
+        {items.map((item, index) => (
+          <Stack key={`${item.title}-${index}`} flexDirection={"row"} gap={1}>
             {React.cloneElement(item.icon, {
               sx: {
                 color: "secondary.dark",

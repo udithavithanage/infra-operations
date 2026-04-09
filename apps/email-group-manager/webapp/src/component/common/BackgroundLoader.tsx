@@ -53,8 +53,11 @@ const BackgroundLoader = (props: {
         <Box sx={{ width: "40%" }}>
           <LinearProgressWithLabel
             value={
-              (props.linearProgress.completed / props.linearProgress.total) *
-              100
+              props.linearProgress.total > 0
+                ? (props.linearProgress.completed /
+                    props.linearProgress.total) *
+                  100
+                : 0
             }
           />
           <Typography variant="h5" sx={{ marginTop: "20px" }}>

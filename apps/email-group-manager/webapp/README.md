@@ -1,8 +1,8 @@
-# Email Group Manager — Frontend
+# Email Group Manager — webapp
 
-Lightweight React + Vite frontend for managing email groups (subscribe/unsubscribe, browse public/private/default groups, and user group management).
+Lightweight React + Vite webapp for managing email groups (subscribe/unsubscribe, browse public/private/default groups, and user group management).
 
-**Status:** Work-in-progress — frontend UI and state management implemented with TypeScript and Redux Toolkit.
+**Status:** Work-in-progress — webapp UI and state management implemented with TypeScript and Redux Toolkit.
 
 **Tech stack**
 
@@ -40,10 +40,10 @@ Lightweight React + Vite frontend for managing email groups (subscribe/unsubscri
 
 **Local setup**
 
-1. Clone the repo and change into the frontend folder:
+1. Clone the repo and change into the webapp folder:
 
 ```bash
-cd apps/email-group-manager/frontend
+cd apps/email-group-manager/webapp
 npm install
 ```
 

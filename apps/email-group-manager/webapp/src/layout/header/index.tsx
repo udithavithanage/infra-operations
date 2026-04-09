@@ -129,7 +129,9 @@ const Header = () => {
                       color: theme.palette.customText.primary.p2.active,
                     }}
                   >
-                    {user.userInfo?.firstName + " " + user.userInfo.lastName}
+                    {[user.userInfo?.firstName, user.userInfo?.lastName]
+                      .filter(Boolean)
+                      .join(" ")}
                   </Typography>
                   <Typography
                     noWrap

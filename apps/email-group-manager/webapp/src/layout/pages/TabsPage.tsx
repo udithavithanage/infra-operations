@@ -49,7 +49,9 @@ export default function TabsPage({ tabsPage }: TabsPageProps) {
       setValue(tabIndex);
     } else {
       setValue(0);
-      setSearchParams({ tab: tabs[0] }, { replace: true });
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.set("tab", tabs[0]);
+      setSearchParams(nextParams, { replace: true });
     }
   }, [searchParams, tabs, setSearchParams, hasTabs]);
 
@@ -57,7 +59,9 @@ export default function TabsPage({ tabsPage }: TabsPageProps) {
 
   const handleTabClick = (index: number) => {
     setValue(index);
-    setSearchParams({ tab: tabs[index] });
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.set("tab", tabs[index]);
+    setSearchParams(nextParams);
   };
 
   return (

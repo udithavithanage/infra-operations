@@ -144,6 +144,7 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
       } catch {
         if (mounted) {
           dispatch(setAuthError());
+          setAppState(AppState.Unauthenticated);
         }
       }
     };

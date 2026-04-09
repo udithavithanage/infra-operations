@@ -68,10 +68,13 @@ const allGroupsSlice = createSlice({
       })
       .addCase(getAllGroups.rejected, (state) => {
         state.state = State.failed;
+        state.stateMessage = null;
         state.errorMessage = "Failed to fetch all groups";
       })
       .addCase(getAllGroups.fulfilled, (state, action) => {
         state.state = State.success;
+        state.stateMessage = null;
+        state.errorMessage = null;
         state.groups = action.payload;
       });
   },

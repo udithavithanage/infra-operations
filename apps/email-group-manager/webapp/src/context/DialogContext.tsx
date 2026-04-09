@@ -204,11 +204,11 @@ const ConfirmationModalContextProvider: React.FC<
                 sx={{ marginX: 2, mt: 2, maxWidth: 350 }}
                 value={comment}
                 label={content.inputObj?.label}
-                type="text"
+                type={content.inputObj?.type === "date" ? "date" : "text"}
                 size="small"
-                multiline
-                rows={2}
-                maxRows={6}
+                multiline={content.inputObj?.type === "textarea"}
+                rows={content.inputObj?.type === "textarea" ? 4 : undefined}
+                maxRows={content.inputObj?.type === "textarea" ? 4 : undefined}
                 onChange={onChange}
               />
             )}

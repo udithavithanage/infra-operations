@@ -27,6 +27,7 @@ export const SnackMessage = {
   warning: {},
 };
 
-export const APP_DESC = " Internal App Product Template.";
+export const APP_DESC =
+  "Email Group Manager web application to manage email groups.";
 
-export const redirectUrl = "iapm-marketplace-redirect-url";
+export const redirectUrl = "email-group-manager-redirect-url";

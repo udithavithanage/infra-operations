@@ -33,7 +33,7 @@ import { APP_DESC } from "@root/src/config/constant";
 import { useAppAuthContext } from "@root/src/context/AuthContext";
 
 const LoginScreen = () => {
-  const { appSignIn, appSignOut } = useAppAuthContext();
+  const { appSignIn } = useAppAuthContext();
 
   return (
     <Box
@@ -73,8 +73,8 @@ const LoginScreen = () => {
                 spacing={2}
                 p={1}
               >
-                <Grid size={{ xs: 12 }}>
-                  <img alt="logo" width="130" height="auto" src={logo}></img>
+                <Grid size={{ xs: 12 }} sx={{ textAlign: "center" }}>
+                  <img alt="logo" width="130" height="auto" src={logo} />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <Typography
@@ -96,7 +96,10 @@ const LoginScreen = () => {
                     {APP_DESC}
                   </Typography>
                 </Grid>
-                <Grid size={{ xs: 12 }}>
+                <Grid
+                  size={{ xs: 12 }}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
                   <LoadingButton
                     variant="contained"
                     color="primary"
@@ -113,7 +116,7 @@ const LoginScreen = () => {
                     <Typography align="center" color={"black"}>
                       Powered By
                     </Typography>
-                    <Stack direction="row" spacing={2}>
+                    <Stack direction="row" spacing={2} justifyContent="center">
                       <img height={22} alt="Product logos" src={ProductLogos} />
                     </Stack>
                   </Stack>

@@ -19,6 +19,7 @@ function StateWithImage(props: {
   message: string;
   imageUrl: string;
   hideImage?: boolean;
+  imageAlt?: string;
 }) {
   return (
     <Box
@@ -30,7 +31,12 @@ function StateWithImage(props: {
       }}
     >
       {!props.hideImage && (
-        <img alt="logo" width="140" height="auto" src={props.imageUrl}></img>
+        <img
+          alt={props.imageAlt || "logo"}
+          width="140"
+          height="auto"
+          src={props.imageUrl}
+        ></img>
       )}
 
       <Typography

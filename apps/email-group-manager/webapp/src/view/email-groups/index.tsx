@@ -29,7 +29,7 @@ import PrivateGroups from "./panel/PrivateGroups";
 import { useAppDispatch } from "@root/src/slices/store";
 import { getUserGroups } from "@slices/userGroupsSlice/userGroups";
 
-export default function OfferLetter() {
+export default function EmailGroups() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function OfferLetter() {
 
   return (
     <TabsPage
-      title="Menu 1"
+      title="Email Groups"
       tabsPage={[
         {
           tabTitle: "All Groups",

@@ -44,14 +44,17 @@ export const subscribeGroup = createAsyncThunk(
   "subscribe/subscribeGroup",
   async (payload: SubscribePayload, { rejectWithValue, dispatch }) => {
     try {
-      payload.groupName = payload.groupName.split("@")[0]; // Extracting the group name from the email and adding it to the payload
+      const requestPayload = {
+        ...payload,
+        groupName: payload.groupName.split("@")[0],
+      };
       await APIService.getInstance().patch(
         AppConfig.serviceUrls.subscribe,
-        payload,
+        requestPayload,
       );
       dispatch(
         enqueueSnackbarMessage({
-          message: "Sussessfully subscribed",
+          message: "Successfully subscribed",
           type: "success",
         }),
       );

@@ -20,6 +20,7 @@ import { useTheme } from "@mui/material/styles";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { fetchAppConfig } from "@slices/configSlice/config";
 import { useAppDispatch, useAppSelector } from "@slices/store";
+import ErrorHandler from "@root/src/component/common/ErrorHandler";
 
 function UserGuide() {
   const theme = useTheme();
@@ -31,13 +32,20 @@ function UserGuide() {
     margin: "0 auto",
   };
   const [markdownContent, setMarkdownContent] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchAppConfig());
     fetch("/README.md")
       .then((response) => response.text())
-      .then((text) => setMarkdownContent(text))
-      .catch((error) => console.error("Error fetching README.md file:", error));
+      .then((text) => {
+        setMarkdownContent(text);
+        setError(null);
+      })
+      .catch((err) => {
+        console.error("Error fetching README.md file:", err);
+        setError("Unable to load the user guide. Please try again later.");
+      });
   }, [dispatch]);
 
   const supportTeamEmails =
@@ -48,7 +56,19 @@ function UserGuide() {
         `- For **${team.toLowerCase()}**, email: [${email}](mailto:${email})`,
     )
     .join("\n");
-  const doc = markdownContent + supportTeams;
+  const supportSection =
+    supportTeamEmails.length > 0
+      ? `\n\n## Support Contacts\n\n${supportTeams}`
+      : "";
+  const doc = markdownContent + supportSection;
+
+  if (error) {
+    return (
+      <Box sx={{ padding: theme.spacing(3) }}>
+        <ErrorHandler message={error} />
+      </Box>
+    );
+  }
 
   return (
     <Box>

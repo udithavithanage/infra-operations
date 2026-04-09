@@ -44,10 +44,13 @@ export const unsubscribeGroup = createAsyncThunk(
   "unsubscribe/unsubscribeGroup",
   async (payload: UnsubscribePayload, { rejectWithValue, dispatch }) => {
     try {
-      payload.groupName = payload.groupName.split("@")[0]; // Extracting the group name from the email and adding it to the payload
+      const requestPayload = {
+        ...payload,
+        groupName: payload.groupName.split("@")[0],
+      };
       await APIService.getInstance().patch(
         AppConfig.serviceUrls.unsubscribe,
-        payload,
+        requestPayload,
       );
       dispatch(
         enqueueSnackbarMessage({

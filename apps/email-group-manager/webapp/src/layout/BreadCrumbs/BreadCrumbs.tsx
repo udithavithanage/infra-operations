@@ -13,6 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 import { Box, Tooltip, Typography, useTheme } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useLocation } from "react-router-dom";
@@ -24,7 +25,7 @@ export default function BasicBreadcrumbs() {
   const theme = useTheme();
 
   const { pathname } = location;
-  const pathnames = pathname === "/" ? [] : pathname.split("/");
+  const pathnames = pathname === "/" ? [] : pathname.split("/").filter(Boolean);
 
   const renderBreadCrumbs = () => {
     let routeTo = "";
