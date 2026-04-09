@@ -172,6 +172,7 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
   };
 
   const appSignOut = async () => {
+    setSessionWarningOpen(false);
     setAppState(AppState.Loading);
     await signOut();
     setAppState(AppState.Unauthenticated);

@@ -75,6 +75,7 @@ Scripts (from `package.json`)
 Environment & configuration
 
 - The app reads runtime values from `public/config.js` — copy `public/config.js.example` and fill in API base URLs and Asgardeo auth settings.
+- `public/config.js` is served to the browser. Do **not** place secrets (client secrets, private keys, tokens) in this file.
 - If your backend requires CORS or auth tokens, configure those values before running the app.
 
 Development notes

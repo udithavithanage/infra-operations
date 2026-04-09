@@ -89,7 +89,10 @@ const unsubscribeSlice = createSlice({
       })
       .addCase(unsubscribeGroup.rejected, (state, action) => {
         state.state = State.failed;
-        state.errorMessage = action.payload as string;
+        state.stateMessage = null;
+        state.errorMessage =
+          (action.payload as string) ||
+          "Failed to unsubscribe from notifications";
       });
   },
 });

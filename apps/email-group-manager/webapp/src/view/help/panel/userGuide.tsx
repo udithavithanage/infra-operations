@@ -36,16 +36,28 @@ function UserGuide() {
 
   useEffect(() => {
     dispatch(fetchAppConfig());
-    fetch("/README.md")
-      .then((response) => response.text())
+    const controller = new AbortController();
+
+    fetch("/README.md", { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch README.md: ${response.status}`);
+        }
+        return response.text();
+      })
       .then((text) => {
         setMarkdownContent(text);
         setError(null);
       })
       .catch((err) => {
+        if ((err as Error).name === "AbortError") {
+          return;
+        }
         console.error("Error fetching README.md file:", err);
         setError("Unable to load the user guide. Please try again later.");
       });
+
+    return () => controller.abort();
   }, [dispatch]);
 
   const supportTeamEmails =
