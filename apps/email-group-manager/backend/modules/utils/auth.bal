@@ -1,4 +1,4 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+// Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 //
 // This software is the property of WSO2 LLC. and its suppliers, if any.
 // Dissemination of any information or reproduction of any material contained
@@ -33,5 +33,5 @@ public isolated function jwtDecode(string jwt) returns types:JwtRecord|error {
 #
 # + jwtRecord - JSON Web Token Record
 # + return - Return true if user is an admin, else false
-public isolated function checkUserIsAdmin(types:JwtRecord jwtRecord) returns boolean => 
+public isolated function checkUserIsAdmin(types:JwtRecord jwtRecord) returns boolean =>
     jwtRecord.groups.indexOf(adminRole) is int;

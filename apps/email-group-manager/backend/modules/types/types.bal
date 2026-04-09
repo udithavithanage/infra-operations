@@ -1,4 +1,4 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+// Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 //
 // This software is the property of WSO2 LLC. and its suppliers, if any.
 // Dissemination of any information or reproduction of any material contained
@@ -10,7 +10,7 @@ public type JwtRecord record {
     # User email as a string
     string email;
     # User groups as a string array
-    string[] groups;
+    string[] groups = [];
 };
 
 # Get User Info Response.
@@ -31,6 +31,4 @@ public type UserInfo record {|
 public type Subscription record {|
     # Google group name as a string
     string groupName;
-    # User email as a string
-    string userEmail;
 |};

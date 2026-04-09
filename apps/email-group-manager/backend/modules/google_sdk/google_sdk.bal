@@ -37,6 +37,28 @@ public isolated function getDefaultGoogleGroups() returns string[]|error {
     return defaultGroupEmails;
 }
 
+# Get the all groups in the domain.
+#
+# + emailDomain - The email domain to get groups for
+# + return - An array of group email addresses or an error if the API call fails
+public isolated function getAllGroupsInDomain(string emailDomain) returns string[]|error {
+    string path = string `/admin/directory/v1/groups?domain=${emailDomain}`;
+    http:Response res = check adminClient->get(path);
+
+    if res.statusCode != 200 {
+        string errBody = check res.getTextPayload();
+        return error(string `Admin SDK error ${res.statusCode}: ${errBody}`);
+    }
+
+    GroupListResponse groupPage = check (check res.getJsonPayload()).cloneWithType();
+    string[] groupEmails = [];
+    foreach Group group in groupPage.groups ?: [] {
+        groupEmails.push(group.email);
+    }
+
+    return groupEmails;
+}
+
 # Gets the groups that the user can subscribe to.
 #
 # + return - An array of group email addresses or an error if the API call fails

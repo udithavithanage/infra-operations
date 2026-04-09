@@ -13,29 +13,33 @@ configurable string defaultUser = ?;
 configurable string publicGroupUser = ?;
 configurable string privateGroupUser = ?;
 
-string signedJwt = check jwt:issue(
-        {
-            issuer: config.issuer,
-            audience: config.audience,
-            customClaims: {
-                scope: config.scopes,
-                sub: config.subject
-            },
-            signatureConfig: {
-                config: {
-                    keyStore: {
-                        path: config.certPath,
-                        password: config.password
-                    },
-                    keyAlias: config.keyAlias,
-                    keyPassword: config.keyPassword
+function generateAssertion(OAuthClientConfig config) returns string|error {
+    return jwt:issue(
+            {
+                issuer: config.issuer,
+                audience: config.audience,
+                expTime: 3600,
+                customClaims: {
+                    scope: config.scopes,
+                    sub: config.subject
+                },
+                signatureConfig: {
+                    config: {
+                        keyStore: {
+                            path: config.certPath,
+                            password: config.password
+                        },
+                        keyAlias: config.keyAlias,
+                        keyPassword: config.keyPassword
+                    }
                 }
             }
-        });
+    );
+}
 
 final http:Client adminClient = check new ("https://admin.googleapis.com", {
     auth: {
         tokenUrl: "https://oauth2.googleapis.com/token",
-        assertion: signedJwt
+        assertion: check generateAssertion(config)
     }
 });

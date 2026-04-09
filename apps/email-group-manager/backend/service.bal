@@ -1,4 +1,4 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+// Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 //
 // This software is the property of WSO2 LLC. and its suppliers, if any.
 // Dissemination of any information or reproduction of any material contained
@@ -154,7 +154,7 @@ service / on new http:Listener(9090) {
             return http:UNAUTHORIZED;
         }
 
-        string[]|error allGoogleGroups = google_sdk:getUserSubscribableGroups();
+        string[]|error allGoogleGroups = google_sdk:getAllGroupsInDomain(utils:emailDomain);
         if allGoogleGroups is error {
             log:printError(string `Error in getting all google groups`, 'error = allGoogleGroups,
                     stackTrace = allGoogleGroups.stackTrace(), userEmail = jwtInfo.email);

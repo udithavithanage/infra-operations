@@ -9,7 +9,7 @@ import ballerina/graphql;
 import ballerina/log;
 import ballerina/regex;
 
-configurable string emailDomain = ?;
+public configurable string emailDomain = ?;
 
 # Handle GraphQl client errors.
 #
