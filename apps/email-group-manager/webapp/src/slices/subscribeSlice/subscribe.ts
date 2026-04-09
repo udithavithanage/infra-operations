@@ -28,11 +28,6 @@ interface SubscribeState {
   isSubscribed: boolean;
 }
 
-interface SubscribePayload {
-  groupName: string;
-  userEmail: string;
-}
-
 const initialState: SubscribeState = {
   state: State.idle,
   stateMessage: null,
@@ -42,15 +37,14 @@ const initialState: SubscribeState = {
 
 export const subscribeGroup = createAsyncThunk(
   "subscribe/subscribeGroup",
-  async (payload: SubscribePayload, { rejectWithValue, dispatch }) => {
+  async (groupName: string, { rejectWithValue, dispatch }) => {
     try {
-      const requestPayload = {
-        ...payload,
-        groupName: payload.groupName.split("@")[0],
+      const payload = {
+        groupName: groupName.split("@")[0],
       };
       await APIService.getInstance().patch(
         AppConfig.serviceUrls.subscribe,
-        requestPayload,
+        payload,
       );
       dispatch(
         enqueueSnackbarMessage({

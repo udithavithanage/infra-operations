@@ -21,11 +21,6 @@ import { APIService } from "@utils/apiService";
 import { enqueueSnackbarMessage } from "@slices/commonSlice/common";
 import { State } from "@root/src/types/types";
 
-interface UnsubscribePayload {
-  groupName: string;
-  userEmail: string;
-}
-
 interface UnsubscribeState {
   state: State;
   stateMessage: string | null;
@@ -42,15 +37,14 @@ const initialState: UnsubscribeState = {
 
 export const unsubscribeGroup = createAsyncThunk(
   "unsubscribe/unsubscribeGroup",
-  async (payload: UnsubscribePayload, { rejectWithValue, dispatch }) => {
+  async (groupName: string, { rejectWithValue, dispatch }) => {
     try {
-      const requestPayload = {
-        ...payload,
-        groupName: payload.groupName.split("@")[0],
+      const payload = {
+        groupName: groupName.split("@")[0],
       };
       await APIService.getInstance().patch(
         AppConfig.serviceUrls.unsubscribe,
-        requestPayload,
+        payload,
       );
       dispatch(
         enqueueSnackbarMessage({
