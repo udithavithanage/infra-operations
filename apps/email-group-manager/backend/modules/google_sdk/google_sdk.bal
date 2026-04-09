@@ -13,7 +13,8 @@ import ballerina/url;
 # + userEmail - The email of the user to get groups for
 # + return - An array of Group records or an error if the API call fails
 public isolated function getGroupsForUser(string userEmail) returns Group[]|error {
-    string path = string `/admin/directory/v1/groups?userKey=${userEmail}`;
+    string encodedUserEmail = check url:encode(userEmail, "UTF-8");
+    string path = string `/admin/directory/v1/groups?userKey=${encodedUserEmail}`;
     http:Response res = check adminClient->get(path);
 
     if res.statusCode != 200 {
@@ -43,7 +44,8 @@ public isolated function getDefaultGoogleGroups() returns string[]|error {
 # + emailDomain - The email domain to get groups for
 # + return - An array of group email addresses or an error if the API call fails
 public isolated function getAllGroupsInDomain(string emailDomain) returns string[]|error {
-    string path = string `/admin/directory/v1/groups?domain=${emailDomain}`;
+    string encodedEmailDomain = check url:encode(emailDomain, "UTF-8");
+    string path = string `/admin/directory/v1/groups?domain=${encodedEmailDomain}`;
     http:Response res = check adminClient->get(path);
 
     if res.statusCode != 200 {
@@ -116,7 +118,7 @@ public isolated function unsubscribeUserFromGroup(string userEmail, string group
     string path = string `/admin/directory/v1/groups/${encodedGroupEmail}/members/${encodedUserEmail}`;
     http:Response res = check adminClient->delete(path);
 
-    if res.statusCode != 204 {
+    if res.statusCode != 200 && res.statusCode != 204 {
         string errBody = check res.getTextPayload();
         return error(string `Admin SDK error ${res.statusCode}: ${errBody}`);
     }
