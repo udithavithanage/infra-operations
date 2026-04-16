@@ -13,6 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 import { Box, useTheme } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { Link } from "react-router-dom";
@@ -26,12 +27,10 @@ function SidebarNavItem({
   route,
   isActive,
   open,
-  onClick,
 }: {
   route: RouteDetail;
   isActive: boolean;
   open: boolean;
-  onClick: () => void;
 }) {
   const theme = useTheme();
 
@@ -74,7 +73,6 @@ function SidebarNavItem({
           <Link
             to={route.path}
             style={{ width: "100%", display: "block", textDecoration: "none" }}
-            onClick={onClick}
           >
             <LinkItem
               label={route.text}
@@ -88,7 +86,6 @@ function SidebarNavItem({
         ) : (
           <Box
             component="button"
-            type="button"
             sx={{
               width: "100%",
               cursor: "pointer",
@@ -96,7 +93,6 @@ function SidebarNavItem({
               background: "none",
               padding: 0,
             }}
-            onClick={onClick}
           >
             <LinkItem
               label={route.text}

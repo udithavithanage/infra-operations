@@ -18,24 +18,21 @@ import { Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import MarkdownPreview from "@uiw/react-markdown-preview";
-import { fetchAppConfig } from "@slices/configSlice/config";
-import { useAppDispatch, useAppSelector } from "@slices/store";
 import ErrorHandler from "@root/src/component/common/ErrorHandler";
 
 function UserGuide() {
   const theme = useTheme();
-  const dispatch = useAppDispatch();
+  const [markdownContent, setMarkdownContent] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
   const imageStyle = {
     maxWidth: "80%",
     height: "auto",
     display: "block",
     margin: "0 auto",
-  };
-  const [markdownContent, setMarkdownContent] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  } as const;
 
   useEffect(() => {
-    dispatch(fetchAppConfig());
     const controller = new AbortController();
 
     fetch("/README.md", { signal: controller.signal })
@@ -50,29 +47,13 @@ function UserGuide() {
         setError(null);
       })
       .catch((err) => {
-        if ((err as Error).name === "AbortError") {
-          return;
-        }
+        if ((err as Error).name === "AbortError") return;
         console.error("Error fetching README.md file:", err);
         setError("Unable to load the user guide. Please try again later.");
       });
 
     return () => controller.abort();
-  }, [dispatch]);
-
-  const supportTeamEmails =
-    useAppSelector((state) => state.appConfig.config?.supportTeamEmails) || [];
-  const supportTeams = supportTeamEmails
-    .map(
-      ({ team, email }) =>
-        `- For **${team.toLowerCase()}**, email: [${email}](mailto:${email})`,
-    )
-    .join("\n");
-  const supportSection =
-    supportTeamEmails.length > 0
-      ? `\n\n## Support Contacts\n\n${supportTeams}`
-      : "";
-  const doc = markdownContent + supportSection;
+  }, []);
 
   if (error) {
     return (
@@ -83,37 +64,56 @@ function UserGuide() {
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: 0,
+        overflow: "hidden",
+      }}
+    >
       <Box
         sx={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
+          display: "flex",
+          flexDirection: "column",
           paddingX: 2,
           paddingY: 2,
+          flex: 1,
+          minHeight: 0,
+          overflow: "hidden",
         }}
       >
-        <MarkdownPreview
-          source={doc}
-          style={{
-            backgroundColor: theme.palette.background.default,
-            overflow: "auto",
-            padding: theme.spacing(3),
-            color: theme.palette.primary.main,
+        <Box
+          sx={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: "auto",
+            boxSizing: "border-box",
           }}
-          rehypeRewrite={(node, index, parent) => {
-            if (
-              node.type === "element" &&
-              node.tagName === "a" &&
-              parent?.type === "element" &&
-              /^h(1|2|3|4|5|6)/.test(parent.tagName)
-            ) {
-              parent.children = parent.children.slice(1);
-            }
-          }}
-          components={{
-            img: ({ ...props }) => <img {...props} style={imageStyle} />,
-          }}
-        />
+        >
+          <MarkdownPreview
+            source={markdownContent}
+            style={{
+              backgroundColor: theme.palette.background.default,
+              padding: theme.spacing(10),
+              color: theme.palette.text.primary,
+            }}
+            rehypeRewrite={(node, index, parent) => {
+              if (
+                node.type === "element" &&
+                node.tagName === "a" &&
+                parent?.type === "element" &&
+                /^h(1|2|3|4|5|6)/.test(parent.tagName)
+              ) {
+                parent.children = parent.children.slice(1);
+              }
+            }}
+            components={{
+              img: ({ ...props }) => <img {...props} style={imageStyle} />,
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );

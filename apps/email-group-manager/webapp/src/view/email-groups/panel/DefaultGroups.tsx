@@ -38,7 +38,7 @@ function DefaultGroups() {
       groups={groups}
       state={state}
       errorMessage={errorMessage}
-      showSubscribe={true}
+      showSubscribe={false}
       userGroups={userGroups}
     />
   );

@@ -14,17 +14,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import type { RouteObject } from "react-router-dom";
-
 import React from "react";
+import type { RouteObject } from "react-router-dom";
 
 import { Role } from "@slices/authSlice/auth";
 import { isIncludedRole } from "@utils/utils";
 import { View } from "@view/index";
 
-import type { RouteDetail, RouteObjectWithRole } from "./types/types";
-
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import GroupIcon from "@mui/icons-material/Group";
+
+import type { RouteDetail, RouteObjectWithRole } from "./types/types";
 
 export const routes: RouteObjectWithRole[] = [
   {
@@ -33,6 +33,14 @@ export const routes: RouteObjectWithRole[] = [
     icon: React.createElement(GroupIcon),
     element: React.createElement(View.emailGroups),
     allowRoles: [Role.ADMIN, Role.EMPLOYEE],
+  },
+  {
+    path: "/help",
+    text: "Help",
+    icon: React.createElement(HelpOutlineIcon),
+    element: React.createElement(View.help),
+    allowRoles: [Role.ADMIN, Role.EMPLOYEE],
+    bottomNav: true,
   },
 ];
 

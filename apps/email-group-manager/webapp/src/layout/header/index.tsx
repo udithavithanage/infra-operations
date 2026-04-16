@@ -13,6 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 import {
   Avatar,
   Box,
@@ -103,7 +104,12 @@ const Header = () => {
         <Box sx={{ flexGrow: 0 }}>
           {user.userInfo && (
             <>
-              <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
+              <Stack
+                flexDirection={"row"}
+                alignItems={"center"}
+                gap={1}
+                style={{ margin: 2 }}
+              >
                 <Tooltip title="Open settings">
                   <Avatar
                     onClick={handleOpenUserMenu}

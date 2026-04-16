@@ -38,7 +38,7 @@ function AllGroups() {
       groups={groups}
       state={state}
       errorMessage={errorMessage}
-      showSubscribe={true}
+      showSubscribe
       userGroups={userGroups}
     />
   );

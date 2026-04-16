@@ -19,7 +19,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import authReducer from "@slices/authSlice/auth";
 import commonReducer from "@slices/commonSlice/common";
-import appConfigReducer from "@slices/configSlice/config";
 import employeeReducer from "@slices/employeeSlice/employee";
 import userReducer from "@slices/userSlice/user";
 import userGroupsReducer from "@slices/userGroupsSlice/userGroups";
@@ -38,7 +37,6 @@ export const store = configureStore({
     user: userReducer,
     common: commonReducer,
     employee: employeeReducer,
-    appConfig: appConfigReducer,
     userGroups: userGroupsReducer,
     allGroups: allGroupsReducer,
     subscribe: subscribeReducer,

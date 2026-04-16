@@ -90,7 +90,7 @@ export default function TabsPage({ tabsPage }: TabsPageProps) {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                sx={{ width: "100%" }}
+                sx={{ width: "100%", height: "100%", overflowY: "auto" }}
               >
                 <TabPanel value={value} index={index}>
                   {tab.page}

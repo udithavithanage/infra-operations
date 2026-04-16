@@ -1,3 +1,19 @@
+// Copyright (c) 2026 WSO2 LLC. (https://www.wso2.com).
+//
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
 import { Box, Typography, CircularProgress, Container } from "@mui/material";
 import { useTheme, alpha } from "@mui/material/styles";
 import SearchBar from "../component/SearchBar";
@@ -5,6 +21,7 @@ import SubscribeButton from "../component/SubscribeButton";
 import ErrorHandler from "@component/common/ErrorHandler";
 import { useState } from "react";
 import { State } from "@root/src/types/types";
+import NotFound from "./NotFound";
 
 type Props = {
   title: string;
@@ -61,6 +78,19 @@ function GroupsList({
           gap: 2,
         }}
       >
+        {filteredGroups.length === 0 && (
+          <Box
+            sx={{
+              gridColumn: "1 / -1",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
+            }}
+          >
+            <NotFound message={`No ${title} found`} />
+          </Box>
+        )}
         {filteredGroups.map((group) => (
           <Box
             key={group}
