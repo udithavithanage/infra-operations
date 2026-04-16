@@ -5,26 +5,9 @@
 // herein in any form is strictly forbidden, unless permitted by WSO2 expressly.
 // You may not alter or remove any copyright or other notice from copies of this content.
 
-import ballerina/graphql;
-import ballerina/log;
 import ballerina/regex;
 
 public configurable string emailDomain = ?;
-
-# Handle GraphQl client errors.
-#
-# + errorPosition - Position of the error occurred
-# + clientError - Graphql client error
-# + return - Error as an error type
-public isolated function handleGraphqlErrors(string errorPosition, graphql:ClientError clientError) returns error {
-    if clientError is graphql:PayloadBindingError|graphql:InvalidDocumentError {
-        log:printError(errorPosition, clientError, 'info = clientError.detail().errors);
-    } else if clientError is graphql:HttpError {
-        log:printError(errorPosition, clientError, 'info = clientError.detail().body);
-    }
-
-    return clientError;
-}
 
 # Create a group email from a group name.
 #
