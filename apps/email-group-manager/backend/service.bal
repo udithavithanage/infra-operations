@@ -139,9 +139,9 @@ service http:InterceptableService / on new http:Listener(9090) {
         return publicGoogleGroups;
     }
 
-    # Get private google groups. These are the google groups that the user is subscribed to but cannot unsubscribe from.
+    # Get user subscribed private google groups. These are the private google groups that the user is subscribed to.
     #
-    # + return - private google groups as a string array
+    # + return - user subscribed private google groups as a string array
     resource function get private\-google\-groups(http:RequestContext ctx)
         returns string[]|http:Unauthorized|http:InternalServerError {
 
@@ -155,14 +155,14 @@ service http:InterceptableService / on new http:Listener(9090) {
             };
         }
 
-        string[]|error privateGoogleGroups = google_sdk:getUserUnsubscribableGroups();
-        if privateGoogleGroups is error {
-            log:printError(string `Error in getting private google groups`, 'error = privateGoogleGroups,
-                    stackTrace = privateGoogleGroups.stackTrace(), userEmail = userInfo.email);
+        string[]|error userSubscribedPrivateGroups = google_sdk:getUserSubscribedPrivateGroups(userInfo.email);
+        if userSubscribedPrivateGroups is error {
+            log:printError(string `Error in getting private google groups`, 'error = userSubscribedPrivateGroups,
+                    stackTrace = userSubscribedPrivateGroups.stackTrace(), userEmail = userInfo.email);
             return http:INTERNAL_SERVER_ERROR;
         }
 
-        return privateGoogleGroups;
+        return userSubscribedPrivateGroups;
     }
 
     # Get user google groups. These are the google groups that the user is subscribed to.

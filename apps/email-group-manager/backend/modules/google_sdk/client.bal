@@ -18,7 +18,6 @@ function generateAssertion(OAuthClientConfig config) returns string|error {
             {
                 issuer: config.issuer,
                 audience: config.audience,
-                expTime: 3600,
                 customClaims: {
                     scope: config.scopes,
                     sub: config.subject

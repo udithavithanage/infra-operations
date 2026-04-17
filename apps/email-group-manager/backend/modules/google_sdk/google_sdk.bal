@@ -75,17 +75,24 @@ public isolated function getUserSubscribableGroups() returns string[]|error {
     return subscribableGroupEmails;
 }
 
-# Gets the groups that the user can not subscribe to.
+# Get given user subscribed private groups.
 #
+# + userEmail - The email of the user to get subscribed private groups for
 # + return - An array of group email addresses or an error if the API call fails
-public isolated function getUserUnsubscribableGroups() returns string[]|error {
-    Group[] unsubscribableGroups = check getGroupsForUser(privateGroupUser);
-    string[] unsubscribableGroupEmails = [];
-    foreach Group group in unsubscribableGroups {
-        unsubscribableGroupEmails.push(group.email);
+public isolated function getUserSubscribedPrivateGroups(string userEmail) returns string[]|error {
+    Group[] subscribedGroups = check getGroupsForUser(userEmail);
+    Group[] privateGroups = check getGroupsForUser(publicGroupUser);
+    string[] privateGroupEmails = [];
+    foreach Group group in subscribedGroups {
+        foreach Group privateGroup in privateGroups {
+            if group.email == privateGroup.email {
+                privateGroupEmails.push(group.email);
+                break;
+            }
+        }
     }
 
-    return unsubscribableGroupEmails;
+    return privateGroupEmails;
 }
 
 # Subscribes a user to a group using the Admin SDK API.
