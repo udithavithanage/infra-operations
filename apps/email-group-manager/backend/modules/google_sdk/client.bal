@@ -7,17 +7,22 @@
 
 import ballerina/http;
 import ballerina/jwt;
+import ballerina/time;
 
 configurable OAuthClientConfig config = ?;
 configurable string defaultUser = ?;
 configurable string publicGroupUser = ?;
 configurable string privateGroupUser = ?;
 
-function generateAssertion(OAuthClientConfig config) returns string|error {
-    return jwt:issue(
+isolated http:Client adminClient = check createAdminClient();
+isolated time:Utc lastCreatedTime = time:utcNow();
+
+isolated function createAdminClient() returns http:Client|error {
+    string assertion = check jwt:issue(
             {
                 issuer: config.issuer,
                 audience: config.audience,
+                expTime: 3600,
                 customClaims: {
                     scope: config.scopes,
                     sub: config.subject
@@ -34,11 +39,39 @@ function generateAssertion(OAuthClientConfig config) returns string|error {
                 }
             }
     );
+
+    return new ("https://admin.googleapis.com", {
+        auth: {
+            tokenUrl: "https://oauth2.googleapis.com/token",
+            assertion: assertion
+        }
+    });
 }
 
-final http:Client adminClient = check new ("https://admin.googleapis.com", {
-    auth: {
-        tokenUrl: "https://oauth2.googleapis.com/token",
-        assertion: check generateAssertion(config)
+isolated function getAdminClient() returns http:Client|error {
+    time:Utc now = time:utcNow();
+
+    boolean needsRefresh = false;
+
+    lock {
+        int diffSeconds = now[0] - lastCreatedTime[0];
+        if (diffSeconds > 3300) {
+            needsRefresh = true;
+        }
     }
-});
+
+    if (needsRefresh) {
+        lock {
+            adminClient = check createAdminClient();
+
+        }
+
+        lock {
+            lastCreatedTime = now;
+        }
+    }
+
+    lock {
+        return adminClient;
+    }
+}

@@ -15,6 +15,7 @@ import ballerina/url;
 public isolated function getGroupsForUser(string userEmail) returns Group[]|error {
     string encodedUserEmail = check url:encode(userEmail, "UTF-8");
     string path = string `/admin/directory/v1/groups?userKey=${encodedUserEmail}`;
+    http:Client adminClient = check getAdminClient();
     http:Response res = check adminClient->get(path);
 
     if res.statusCode != 200 {
@@ -46,6 +47,7 @@ public isolated function getDefaultGoogleGroups() returns string[]|error {
 public isolated function getAllGroupsInDomain(string emailDomain) returns string[]|error {
     string encodedEmailDomain = check url:encode(emailDomain, "UTF-8");
     string path = string `/admin/directory/v1/groups?domain=${encodedEmailDomain}`;
+    http:Client adminClient = check getAdminClient();
     http:Response res = check adminClient->get(path);
 
     if res.statusCode != 200 {
@@ -104,6 +106,7 @@ public isolated function subscribeUserToGroup(string userEmail, string groupEmai
     string encodedGroupEmail = check url:encode(groupEmail, "UTF-8");
     string path = string `/admin/directory/v1/groups/${encodedGroupEmail}/members`;
     Member member = {email: userEmail, role: "MEMBER"};
+    http:Client adminClient = check getAdminClient();
     http:Response res = check adminClient->post(path, member);
 
     if res.statusCode != 200 {
@@ -123,6 +126,7 @@ public isolated function unsubscribeUserFromGroup(string userEmail, string group
     string encodedGroupEmail = check url:encode(groupEmail, "UTF-8");
     string encodedUserEmail = check url:encode(userEmail, "UTF-8");
     string path = string `/admin/directory/v1/groups/${encodedGroupEmail}/members/${encodedUserEmail}`;
+    http:Client adminClient = check getAdminClient();
     http:Response res = check adminClient->delete(path);
 
     if res.statusCode != 200 && res.statusCode != 204 {
@@ -140,6 +144,7 @@ public isolated function unsubscribeUserFromGroup(string userEmail, string group
 public isolated function checkGroupIsSubscribable(string groupEmail) returns boolean|error {
     string encodedGroupEmail = check url:encode(groupEmail, "UTF-8");
     string path = string `/admin/directory/v1/groups/${encodedGroupEmail}/members/${publicGroupUser}`;
+    http:Client adminClient = check getAdminClient();
     http:Response res = check adminClient->get(path);
 
     if res.statusCode == 200 {
